@@ -23,9 +23,9 @@ public class ServerListener extends Thread {
 			while (true) {
 				Socket socket= severSocket.accept();
 				//establish linkage
-				/*JOptionPane.showMessageDialog(null , "hello world");	*/
 				String connectinfo = new String("Connected to Server\n");
 				socket.getOutputStream().write(connectinfo.getBytes("UTF-8"));
+				//show connected message
 				Enumeration<String> e= RoomTable.Rtable.keys();
 				String exrooms = new String("Existed Rooms :\n");
 				socket.getOutputStream().write(exrooms.getBytes("UTF-8"));
@@ -33,10 +33,11 @@ public class ServerListener extends Thread {
 					String key = "["+e.nextElement()+"] ";
 					socket.getOutputStream().write(key.getBytes("UTF-8"));
 				}
-				Enumeration<Room> e1 =RoomTable.Rtable.elements();
+				//show existed rooms
+				/*Enumeration<Room> e1 =RoomTable.Rtable.elements();
 				while (e1.hasMoreElements()) {
 					Room rm = e1.nextElement();	
-				}
+				}*/
 				boolean flag=true;
 				while (flag) {
 					String instrument = new String("\nInstrument: choose for choosing room  creat for creating room\n");
@@ -45,6 +46,7 @@ public class ServerListener extends Thread {
 							new InputStreamReader(
 									socket.getInputStream(),"UTF-8"));
 					String line = br.readLine();
+					//read user's command
 					if(line.equals("choose")) {
 						String notion1 = new String("Please input the name of the room you want to join:");
 						socket.getOutputStream().write(notion1.getBytes("UTF-8"));
@@ -61,7 +63,7 @@ public class ServerListener extends Thread {
 						}else {
 							socket.getOutputStream().write("There's no such a room, try again!\n".getBytes("UTF-8"));
 						}
-
+						//user join existed rooms
 					}else if (line.equals("creat")) {
 						socket.getOutputStream().write("Please name the new room\n".getBytes("UTF-8"));
 						BufferedReader br2 = new BufferedReader(
@@ -74,7 +76,7 @@ public class ServerListener extends Thread {
 						String notion3 = "Welcome to room : "+"["+line2+"]\n";
 						socket.getOutputStream().write(notion3.getBytes("UTF-8"));
 						flag=false;
-					}
+					}//user create a new room
 				}
 	}
 

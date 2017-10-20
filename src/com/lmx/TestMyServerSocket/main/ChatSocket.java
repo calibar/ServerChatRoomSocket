@@ -18,7 +18,7 @@ public class ChatSocket extends Thread {
 	}
 	
 
-	public void out(String out) {
+	/*public void out(String out) {
 		try {
 			socket.getOutputStream().write(out.getBytes("UTF-8"));
 
@@ -32,7 +32,7 @@ public class ChatSocket extends Thread {
 	}
 	public void broadcast() {
 		
-	}
+	}*/
 	@Override
 	public void run() {
 		try {
