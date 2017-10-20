@@ -9,8 +9,12 @@ import java.util.ArrayList;
 
 public class ChatSocket extends Thread {
 		Socket socket;
-	public ChatSocket(Socket s) {
+		ArrayList<Socket> SkList;
+		ArrayList<String> Hty;
+	public ChatSocket(Socket s,ArrayList<Socket> slist,ArrayList<String> hstry) {
 		this.socket =s;
+		this.SkList =slist;
+		this.Hty =hstry;
 	}
 	
 
@@ -37,7 +41,15 @@ public class ChatSocket extends Thread {
 							socket.getInputStream(),"UTF-8"));
 			String line = null;
 			while ((line = br.readLine())!=null) {
-				Chatmanager.getChatmanager().publish(this, line);
+				String line1= "\n"+line+"\n";
+				Hty.add(line1);
+				for (int i=0; i<SkList.size();i++) {
+					Socket csChatSocket =SkList.get(i);
+					if(!socket.equals(csChatSocket)){
+						csChatSocket.getOutputStream().write(line1.getBytes("UTF-8"));
+						
+					}
+				}
 			}
 			br.close();
 		} catch (UnsupportedEncodingException e) {

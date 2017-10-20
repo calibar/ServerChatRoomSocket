@@ -39,7 +39,7 @@ public class ServerListener extends Thread {
 				}
 				boolean flag=true;
 				while (flag) {
-					String instrument = new String("\nInstrument: Press 1 for choosing room  Press 2 for creating room\n");
+					String instrument = new String("\nInstrument: choose for choosing room  creat for creating room\n");
 					socket.getOutputStream().write(instrument.getBytes("UTF-8"));
 					BufferedReader br = new BufferedReader(
 							new InputStreamReader(
@@ -54,7 +54,7 @@ public class ServerListener extends Thread {
 						String line1 = br1.readLine();
 						if(RoomTable.Rtable.containsKey(line1)) {
 							Room eroom = RoomTable.Rtable.get(line1);
-							eroom.getSocket(socket);
+							eroom.chatting(socket);
 							String notion2 = "Welcome to room : "+"["+line1+"]\n";
 							socket.getOutputStream().write(notion2.getBytes("UTF-8"));
 							flag = false;
@@ -70,16 +70,13 @@ public class ServerListener extends Thread {
 						String line2 = br2.readLine();
 						Room nroom = new Room();
 						RoomTable.Rtable.put(line2,nroom);
-						nroom.getSocket(socket);
+						nroom.chatting(socket);
 						String notion3 = "Welcome to room : "+"["+line2+"]\n";
 						socket.getOutputStream().write(notion3.getBytes("UTF-8"));
 						flag=false;
 					}
 				}
-
-				/*ChatSocket cs = new ChatSocket(socket);
-				cs.start();		
-				Chatmanager.getChatmanager().add(cs);*/	}
+	}
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
