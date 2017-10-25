@@ -26,6 +26,12 @@ public class ServerListener extends Thread {
 				String connectinfo = new String("Connected to Server\n");
 				socket.getOutputStream().write(connectinfo.getBytes("UTF-8"));
 				//show connected message
+				String nameinfo = new String("What is your name?\n");
+				socket.getOutputStream().write(nameinfo.getBytes("UTF-8"));
+				BufferedReader br0 = new BufferedReader(
+						new InputStreamReader(
+								socket.getInputStream(),"UTF-8"));
+				String name = br0.readLine();
 				String exrooms = new String("Existed Rooms :\n");
 				socket.getOutputStream().write(exrooms.getBytes("UTF-8"));
 				Enumeration<String> e= RoomTable.Rtable.keys();
@@ -56,7 +62,7 @@ public class ServerListener extends Thread {
 						String line1 = br1.readLine();
 						if(RoomTable.Rtable.containsKey(line1)) {
 							Room eroom = RoomTable.Rtable.get(line1);
-							eroom.chatting(socket);
+							eroom.chatting(socket,name);
 							String notion2 = "\nWelcome to room : "+"["+line1+"]\n";
 							socket.getOutputStream().write(notion2.getBytes("UTF-8"));
 							flag = false;
@@ -73,7 +79,7 @@ public class ServerListener extends Thread {
 						Room nroom = new Room();
 						RoomTable.Rtable.put(line2,nroom);
 						String notion3 = "\nWelcome to room : "+"["+line2+"]\n";
-						nroom.chatting(socket);
+						nroom.chatting(socket,name);
 						socket.getOutputStream().write(notion3.getBytes("UTF-8"));
 						flag=false;
 					}//user create a new room

@@ -15,10 +15,12 @@ public class ChatSocket extends Thread {
 		Socket socket;
 		ArrayList<Socket> SkList;
 		LinkedList<History> Hty;
-	public ChatSocket(Socket s,ArrayList<Socket> slist,LinkedList<History> hstry) {
+		String Username;
+	public ChatSocket(Socket s,ArrayList<Socket> slist,LinkedList<History> hstry,String name) {
 		this.socket =s;
 		this.SkList =slist;
 		this.Hty =hstry;
+		this.Username = name;
 	}
 	
 
@@ -47,12 +49,12 @@ public class ChatSocket extends Thread {
 			while ((line = br.readLine())!=null) {
 				String line1= "\n"+line+"\n";
 				History hs = new History();
-				hs.setL(line1);
 				Date date = new Date();
 				hs.setD(date);
 				DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String time =format.format(date);
-				String lineout = line1+"  "+time+"\n";
+				String lineout = Username+" says: "+line1+"  "+time+"\n";
+				hs.setL(lineout);
 				Hty.add(hs);
 				for (int i=0; i<SkList.size();i++) {
 					Socket csChatSocket =SkList.get(i);

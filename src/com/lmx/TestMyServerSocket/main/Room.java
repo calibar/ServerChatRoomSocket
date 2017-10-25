@@ -15,15 +15,15 @@ public class Room{
 	public LinkedList<History> getHistory(){
 		return history;
 	}
- 	public void chatting(Socket sockt) {
+ 	public void chatting(Socket sockt,String name) {
 		socList.add(sockt);
 		for(int i=0; i<history.size();i++) {
 			History hsout = history.get(i);
 			String lineout = hsout.getLine();
-			Date date = hsout.getDate();
+			/*Date date = hsout.getDate();
 			DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String time =format.format(date);
-			String out = lineout+"  "+time;
+			String time =format.format(date);*/
+			String out = lineout;
 			try {
 				sockt.getOutputStream().write(out.getBytes("UTF-8"));
 			} catch (UnsupportedEncodingException e) {
@@ -34,7 +34,7 @@ public class Room{
 				e.printStackTrace();
 			}
 		}
-		ChatSocket cs = new ChatSocket(sockt,socList,history);
+		ChatSocket cs = new ChatSocket(sockt,socList,history,name);
 		cs.start();
 	}
 }
