@@ -32,6 +32,7 @@ public class ServerListener extends Thread {
 						new InputStreamReader(
 								socket.getInputStream(),"UTF-8"));
 				String name = br0.readLine();
+				System.out.println(name);
 				String exrooms = new String("Existed Rooms :\n");
 				socket.getOutputStream().write(exrooms.getBytes("UTF-8"));
 				Enumeration<String> e= RoomTable.Rtable.keys();
